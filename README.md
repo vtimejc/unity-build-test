@@ -15,10 +15,15 @@ You will need:
 * [Powershell (pwsh)](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-linux?view=powershell-7.3) 
 
 To set up the tests
-* git clone https://github.com/vtimejc/unity-build-test --recurse-submodules
-** This will take about half an hour
-* pwsh pull.ps1
-** This will take about 10 minutes
+
+`git clone https://github.com/vtimejc/unity-build-test --recurse-submodules`
+
+This will take about half an hour
+
+`pwsh pull.ps1`
+
+This will take about 10 minutes
+
 
 # Running Tests
 

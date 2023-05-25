@@ -1,0 +1,9 @@
+[submodule "boat-attack"]
+	path = boat-attack
+	url = https://github.com/Unity-Technologies/BoatAttack
+[submodule "spaceship-demo"]
+	path = spaceship-demo
+	url = https://github.com/Unity-Technologies/SpaceshipDemo
+[submodule "megacity-sample"]
+	path = megacity-sample
+	url = https://github.com/Unity-Technologies/Megacity-Sample
