@@ -1,3 +1,8 @@
-Remove-Item boat-attack/Library -ErrorAction SilentlyContinue
-Remove-Item megacity-sample/Library -ErrorAction SilentlyContinue
-Remove-Item spaceship-demo/Library -ErrorAction SilentlyContinue
+function Invoke-Clean($ProjectPath) {
+    Write-Host "Cleaning $ProjectPath"
+    Remove-Item "$ProjectPath/Library" -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+Invoke-Clean "boat-attack"
+Invoke-Clean "megacity-sample"
+Invoke-Clean "spaceship-demo"
