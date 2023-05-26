@@ -9,6 +9,7 @@ This makes extensive use of [Game CI's](https://game.ci/) Docker images of Unity
 # Setup
 
 You will need:
+* A Unity Pro license
 * A minimum of 200GB of free drive space.
 * A modern LFS enabled `git`.
 * [Docker](https://docs.docker.com/engine/install/)
@@ -16,13 +17,20 @@ You will need:
 
 To set up the tests
 
-`git clone https://github.com/vtimejc/unity-build-test --recurse-submodules`
+```
+git clone https://github.com/vtimejc/unity-build-test --recurse-submodules
+```
 
-This will take about half an hour
+This will download approximately 45GB of data
 
-`pwsh pull.ps1`
+```
+pwsh pull.ps1
+```
 
-This will take about 10 minutes
+Add your email/password/license ID in a file to `license.ps1` (see `license-example.ps1`). Do not commit this...
+
+
+This will download approximately 20GB of data
 
 
 # Running Tests
@@ -30,11 +38,15 @@ This will take about 10 minutes
 To run the tests:
 
 (Assuming you are running on Linux or WSL)
-* pwsh clean.ps1
-* pwsh build_linux.ps1
+```
+pwsh clean.ps1
+pwsh build_linux.ps1
+```
 
 (Assuming you are running on Windows with Docker in Windows Containers mode.)
-* pwsh clean.ps1
-* pwsh build_windows.ps1
+```
+pwsh clean.ps1
+pwsh build_windows.ps1
+```
  
 The tests take about an hour in total
