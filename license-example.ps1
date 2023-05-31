@@ -2,5 +2,5 @@
 #   You wil need to free up a license seat at id.unity.com
 
 $env:UNITY_USERNAME="j.doe@example.com"
-$env:UNITY_PASSWORD="asdfghjkl"
-$env:UNITY_SERIAL="XXX-YYY-ZZZ"
+$env:UNITY_PASSWORD="hunter99"
+$env:UNITY_SERIAL="XX-1111-2222-3333-4444-5555"
