@@ -3,31 +3,23 @@ param ([parameter(Mandatory=$true)][string]$verb)
 Set-strictmode -version latest
 $ErrorActionPreference = "Stop"
 
-. ./license.ps1
 . build_setup.ps1
-
-if (-Not (Test-Path 'env:UNITY_USERNAME')) { Throw }
-if (-Not (Test-Path 'env:UNITY_PASSWORD')) { Throw }
-if (-Not (Test-Path 'env:UNITY_SERIAL')) { Throw }
 
 function Invoke-Build($ProjectPath, $UnityVersion, $Platform, $Scenes) {
     Write-Host "Building $ProjectPath with $UnityVersion ($verb)"
+
+    if (!Test-Path "C:\Program Files\Unity\Hub\Editor\$UnityVersion\Editor\Unity.exe") {
+        Write-Host "Unity version $UnityVersion not found"
+        return
+    }
 
     Invoke-Build-Setup -ProjectPath $ProjectPath -Scenes $Scenes -Linux $true
 
     $Scenes | Set-Content -Path "$ProjectPath/SceneList"
 
     $timing = Measure-Command {
-        docker run --rm `
-        --name ${ProjectPath}-builder `
-        --hostname ${env:COMPUTERNAME}-Docker `
-        -v ${PWD}/${ProjectPath}:/project `
-        -v ${PWD}/${ProjectPath}/Build:/build `
-        unityci/editor:ubuntu-$UnityVersion-1.0 `
-        unity-editor `
-        -username "$env:UNITY_USERNAME" -password "$env:UNITY_PASSWORD" -serial "$env:UNITY_SERIAL" `
-        -buildTarget $Platform -projectPath /project `
-        -logFile /dev/stdout -nographics `
+        "C:\Program Files\Unity\Hub\Editor\$UnityVersion\Editor\Unity.exe"
+        -buildTarget $Platform -projectPath ${ProjectPath} `
         -executeMethod Builder.BuildProject -quit | Out-Default | Tee-Object -FilePath "${ProjectPath}/Build/Build.log"
     }
 

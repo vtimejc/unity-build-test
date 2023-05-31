@@ -10,11 +10,10 @@ public class Builder : MonoBehaviour
     {
         try
         {
-            File.WriteAllText("/build/BuildPlayer.log", "BuildPlayer started");   
             var target = EditorUserBuildSettings.activeBuildTarget;
             var scenePaths = File.ReadAllLines("SceneList");
             var options = BuildOptions.Development | BuildOptions.AllowDebugging;
-            var output = "/build";
+            var output = Directory.GetCurrentDirectory() + "/Build";
         
             switch (target)
             {
@@ -45,9 +44,6 @@ public class Builder : MonoBehaviour
             {
                 Debug.LogError("BuildPlayer finished with " + buildReport.summary.totalErrors + " errors");
             }
-
-            Debug.Log("Files in /build: " + string.Join(", ", Directory.GetFiles("/build")));
-            Debug.Log("Directories in /build: " + string.Join(", ", Directory.GetDirectories("/build")));
 
             EditorApplication.Exit(0);
         }
