@@ -6,6 +6,8 @@ $boatAttackScenes = @(
     "Assets/scenes/static_island.unity"
 )
 
+$spaceshipDemoUnityVersion = "2022.2.6f1"
+
 $spaceshipDemoScenes = @(
     "Assets/Scenes/Boot.unity"
     "Assets/Scenes/MainMenu/MainMenu.unity"
@@ -26,7 +28,7 @@ function Invoke-Build-Setup($ProjectPath, $Scenes, $Linux) {
     Copy-Item "Builder.cs" "$ProjectPath/Assets/Scripts/Editor/Builder.cs" -Force
 
     $replace = 'com.unity.toolchain.win-x86_64-linux-x86_64','com.unity.toolchain.linux-x86_64'
-    if ($Linux == $false) {
+    if ($Linux) {
         $replace = 'com.unity.toolchain.linux-x86_64','com.unity.toolchain.win-x86_64-linux-x86_64'
     }
     

@@ -1,10 +1,10 @@
 param ([parameter(Mandatory=$true)][string]$verb)
 
-Set-strictmode -version latest
+Set-Strictmode -version latest
 $ErrorActionPreference = "Stop"
 
 . ./license.ps1
-. build_setup.ps1
+. ./build_setup.ps1
 
 if (-Not (Test-Path 'env:UNITY_USERNAME')) { Throw }
 if (-Not (Test-Path 'env:UNITY_PASSWORD')) { Throw }
@@ -30,6 +30,10 @@ function Invoke-Build($ProjectPath, $UnityVersion, $Platform, $Scenes) {
         -logFile /dev/stdout -nographics `
         -executeMethod Builder.BuildProject -quit | Out-Default | Tee-Object -FilePath "${ProjectPath}/Build/Build.log"
     }
+
+    #   Docker will leave files as root
+
+    sudo chown -R $env:USER:$env:USER $ProjectPath
 
     $numFiles = Get-ChildItem "${ProjectPath}/Build" -Recurse -File | Measure-Object | ForEach-Object { $_.Count }
 
