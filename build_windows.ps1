@@ -3,13 +3,16 @@ param ([parameter(Mandatory=$true)][string]$verb)
 Set-strictmode -version latest
 $ErrorActionPreference = "Stop"
 
-. build_setup.ps1
+. ./build_setup.ps1
 
 function Invoke-Build($ProjectPath, $UnityVersion, $Platform, $Scenes) {
     Write-Host "Building $ProjectPath with $UnityVersion ($verb)"
 
-    if (!Test-Path "C:\Program Files\Unity\Hub\Editor\$UnityVersion\Editor\Unity.exe") {
-        Write-Host "Unity version $UnityVersion not found"
+    $unityBase = $UnityVersion.Substring(0, $UnityVersion.IndexOf("-"))
+    $unityExe = "C:\Program Files\Unity\Hub\Editor\$unityBase\Editor\Unity.exe"
+
+    if (!(Test-Path $unityExe)) {
+        Write-Host "Unity version $unityBase not installed"
         return
     }
 
@@ -18,9 +21,7 @@ function Invoke-Build($ProjectPath, $UnityVersion, $Platform, $Scenes) {
     $Scenes | Set-Content -Path "$ProjectPath/SceneList"
 
     $timing = Measure-Command {
-        "C:\Program Files\Unity\Hub\Editor\$UnityVersion\Editor\Unity.exe"
-        -buildTarget $Platform -projectPath ${ProjectPath} `
-        -executeMethod Builder.BuildProject -quit | Out-Default | Tee-Object -FilePath "${ProjectPath}/Build/Build.log"
+        & $unityExe -buildTarget $Platform -projectPath ${ProjectPath} -executeMethod Builder.BuildProject -quit | Out-Default | Tee-Object -FilePath "${ProjectPath}/Build/Build.log"
     }
 
     $numFiles = Get-ChildItem "${ProjectPath}/Build" -Recurse -File | Measure-Object | ForEach-Object { $_.Count }
